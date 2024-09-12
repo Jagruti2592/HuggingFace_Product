@@ -1,5 +1,5 @@
 ---
-title: Text-to-Image Gradio Template
+title: Sample
 emoji: 🖼
 colorFrom: purple
 colorTo: red

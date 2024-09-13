@@ -2,8 +2,10 @@ name: Sync to Hugging Face
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+
+  workflow_dispatch: 
+      
 
 jobs:
   huggingface_sync:
@@ -12,17 +14,11 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
-        
-      - name: Set up Python
-        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
-
-      - name: Install Hugging Face Hub
-        run: |
-          pip install huggingface-hub
-
+          fetch-depth: 0
+          lfs:true      
+      
       - name: Upload Model/Dataset to Hugging Face
-        run: |
-          huggingface-cli login --token ${{ secrets.HF_TOKEN }}
-          huggingface-cli  --repo-id Jagruti25/sample/tree/main  --yes
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: git push https://huggingface.co/spaces/Jagruti25/sample main

@@ -25,7 +25,11 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.github-sync-token }}
         run: |
-          git clone https://huggingface.co/spaces/Jagruti25/sample
+         for i in {1..5}; do
+          git clone https://huggingface.co/spaces/Jagruti25/sample && break
+          echo "Retrying in 10 seconds.."
+          sleep 10
+          done
           cd sample
           git config user.name "Jagruti25"
           

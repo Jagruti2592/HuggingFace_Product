@@ -25,7 +25,7 @@ jobs:
 
       - name: Sync with Hugging Face
         run: |
-          cd spaces/Jagruti25/sample
+          cd https://huggingface.co/spaces/Jagruti25/sample
           rsync -av --exclude=".git" ../ ./
           git add .
           git commit -m "Sync GitHub repo with Hugging Face Space"

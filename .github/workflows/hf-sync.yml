@@ -15,10 +15,10 @@ jobs:
 
       - name: Set up Git configuration
         run: |
-          git config --global user.email "yourusername@users.noreply.github.com"
+          git config --global user.email "jagruti.chitte@yahoo.com"
           git config --global user.name "GitHub Actions"
           git config --global credential.helper store
-          echo "https://github.com:${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
+          echo "https://github.com:${{ secrets.github-sync-token }}@github.com" > ~/.git-credentials
 
       - name: Clone Hugging Face Space
         run: |
@@ -27,7 +27,7 @@ jobs:
       - name: Sync files
         run: |
           rsync -av --exclude=".git" hf-sample/ ./
-
+          
       - name: Commit and Push changes
         run: |
           git add .

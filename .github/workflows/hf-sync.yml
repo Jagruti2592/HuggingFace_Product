@@ -2,10 +2,10 @@ name: Sync to Hugging Face
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
-  workflow_dispatch: 
-      
+  workflow_dispatch:
 
 jobs:
   huggingface_sync:
@@ -16,9 +16,26 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          lfs:true      
-      
-      - name: Upload Model/Dataset to Hugging Face
+          lfs: true
+
+      - name: Install Hugging Face Hub
+        run: pip install huggingface_hub
+
+      - name: Clone Hugging Face Space repository
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://huggingface.co/spaces/Jagruti25/sample main
+          HF_TOKEN: ${{ secrets.github-sync-token }}
+        run: |
+          git clone https://huggingface.co/spaces/Jagruti25/sample
+          cd sample
+          git config user.name "Jagruti25"
+          git config user.email "your-email@example.com"
+
+      - name: Sync GitHub repository to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.github-sync-token }}
+        run: |
+          cd sample
+          rsync -av --exclude=".git" ../ ./
+          git add .
+          git commit -m "Sync GitHub repo with Hugging Face Space"
+          git push origin main

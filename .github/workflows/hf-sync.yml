@@ -15,7 +15,7 @@ jobs:
 
       - name: Set up Git configuration
         run: |
-          git config --global user.email "yourusername@users.noreply.github.com"
+          git config --global user.email "jagruti.chitte@yahoo.com"
           git config --global user.name "GitHub Actions"
           git config --global credential.helper store
           echo "https://x-access-token:${{ secrets.HF_TOKEN }}@github.com" > ~/.git-credentials

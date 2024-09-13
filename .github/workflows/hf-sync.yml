@@ -1,43 +1,29 @@
-name: Sync to Hugging Face
+name: Sync with Hugging Face
 
 on:
   push:
     branches:
       - main
 
-  workflow_dispatch:
-
 jobs:
-  huggingface_sync:
+  sync:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          lfs: true
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Install Hugging Face Hub
-        run: pip install huggingface_hub
-
-      - name: Clone Hugging Face Space repository
-        env:
-          HF_TOKEN: ${{ secrets.github-sync-token }}
+      - name: Set up Git configuration
         run: |
-         for i in {1..5}; do
-          git clone https://huggingface.co/spaces/Jagruti25/sample && break
-          echo "Retrying in 10 seconds.."
-          sleep 10
-          done
-          cd sample
-          git config user.name "Jagruti25"
-          git config user.email "jcchitte@wpi.edu"
-          
+          git config --global user.email "jcchitte@wpi.edu"
+          git config --global user.name "GitHub Actions"
 
-      - name: Sync GitHub repository to Hugging Face Space
-        env:
-          HF_TOKEN: ${{ secrets.github-sync-token }}
+      - name: Set up Hugging Face authentication
+        run: |
+          git config --global credential.helper store
+          echo "https://Jagruti25:${{ secrets.github-sync-token }}@huggingface.co" > ~/.git-credentials
+
+      - name: Sync with Hugging Face
         run: |
           cd sample
           rsync -av --exclude=".git" ../ ./

@@ -25,5 +25,4 @@ jobs:
       - name: Upload Model/Dataset to Hugging Face
         run: |
           huggingface-cli login --token ${{ secrets.HF_TOKEN }}
-          huggingface-cli repo create https://huggingface.co/spaces/Jagruti25/sample
-          huggingface-cli upload-folder --folder . --repo-id Jagruti25/sample
+          huggingface-cli upload-folder --folder . --repo-id Jagruti25/sample --yes

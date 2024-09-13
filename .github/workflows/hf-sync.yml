@@ -1,0 +1,29 @@
+name: Sync to Hugging Face
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  huggingface_sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Hugging Face Hub
+        run: |
+          pip install huggingface-hub
+
+      - name: Upload Model/Dataset to Hugging Face
+        run: |
+          huggingface-cli login --token ${{ secrets.HF_TOKEN }}
+          huggingface-cli repo create https://huggingface.co/spaces/Jagruti25/sample
+          huggingface-cli upload-folder --folder . --repo-id Jagruti25/sample

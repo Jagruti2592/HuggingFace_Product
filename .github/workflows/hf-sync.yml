@@ -15,18 +15,15 @@ jobs:
 
       - name: Set up Git configuration
         run: |
-          git config --global user.email "jcchitte@wpi.edu"
+          git config --global user.email "yourusername@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
-
-      - name: Set up Hugging Face authentication
-        run: |
           git config --global credential.helper store
-          echo "https://Jagruti25:${{ secrets.github-sync-token }}@huggingface.co" > ~/.git-credentials
+          echo "https://github.com:${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
 
       - name: Clone Hugging Face Space
         run: |
           git clone https://huggingface.co/spaces/Jagruti25/sample.git hf-sample
-          
+
       - name: Sync files
         run: |
           rsync -av --exclude=".git" hf-sample/ ./
@@ -34,5 +31,6 @@ jobs:
       - name: Commit and Push changes
         run: |
           git add .
-          git commit -m "Sync GitHub repo with Hugging Face Space"
+          git commit -m "Sync GitHub repo with Hugging Face Space" || echo "No changes to commit"
           git push origin main
+

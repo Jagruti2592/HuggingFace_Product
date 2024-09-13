@@ -32,6 +32,7 @@ jobs:
           done
           cd sample
           git config user.name "Jagruti25"
+          git config user.email "jcchitte@wpi.edu"
           
 
       - name: Sync GitHub repository to Hugging Face Space
